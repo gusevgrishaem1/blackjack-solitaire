@@ -70,8 +70,6 @@ public class Deck {
             }
         } else if (cellNumber >= 17 && cellNumber <= 20) {
             addCardToWaste(cellNumber - 17, card);
-        } else {
-            System.out.println("Некорректный номер ячейки.");
         }
     }
 

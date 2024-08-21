@@ -1,18 +1,15 @@
-import java.util.*;
+import java.util.Collections;
+import java.util.Scanner;
+import java.util.Stack;
 
 public class Deck {
     private final Field[][] fields;
-    private final List<Card> wasteColumns;
+    private final Field[] trash;
     private final Stack<Card> deck;
 
     public Deck() {
-        this.fields = new Field[][]{
-                new Field[]{new Field(1), new Field(2), new Field(3), new Field(4), new Field(5)},
-                new Field[]{new Field(6), new Field(7), new Field(8), new Field(9), new Field(10)},
-                new Field[]{new Field(11), new Field(12), new Field(13), null, null},
-                new Field[]{new Field(14), new Field(15), new Field(16), null, null}
-        };
-        this.wasteColumns = new ArrayList<>();
+        this.fields = new Field[][]{new Field[]{new Field(1), new Field(2), new Field(3), new Field(4), new Field(5)}, new Field[]{new Field(6), new Field(7), new Field(8), new Field(9), new Field(10)}, new Field[]{new Field(11), new Field(12), new Field(13), null, null}, new Field[]{new Field(14), new Field(15), new Field(16), null, null}};
+        this.trash = new Field[4];
         this.deck = new Stack<>();
         initializeDeck();
         shuffleDeck();
@@ -87,13 +84,12 @@ public class Deck {
 
     public void addCardToWaste(int column, Card card) {
         if (column >= 0 && column < 4) {
-            if (this.wasteColumns.size() > column && this.wasteColumns.get(column) != null) {
-                System.out.println("Эта муссорная ячейка занята");
-            }
-            if (this.wasteColumns.size() <= column) {
-                this.wasteColumns.add(card);
+            Field val = trash[column];
+            if (val != null) {
+                System.out.println("Эта мусорная ячейка занята");
             } else {
-                this.wasteColumns.set(column, card);
+                trash[column] = new Field(column);
+                trash[column].setCard(card);
             }
         } else {
             throw new IllegalArgumentException("Некорректный номер мусорной колонки.");
@@ -118,9 +114,12 @@ public class Deck {
         }
 
         System.out.println("Мусорные колонки:");
-        for (int i = 0; i < wasteColumns.size(); i++) {
+        for (int i = 0; i < trash.length; i++) {
+            if (trash[i] == null) {
+                continue;
+            }
             System.out.print("Колонка " + (i + 1) + ": ");
-            System.out.print(wasteColumns.get(i).toString() + "\t");
+            System.out.print(trash[i].getCard().toString() + "\t");
         }
         System.out.println();
     }

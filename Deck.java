@@ -57,7 +57,7 @@ public class Deck {
             }
         }
 
-        if (cellNumber >= 1 && cellNumber <= 16) {
+        if (cellNumber <= 16) {
             if (cellNumber >= 14) {
                 cellNumber += 2;
             }
@@ -68,7 +68,7 @@ public class Deck {
             } catch (Exception e) {
                 System.out.println("Ошибка: " + e.getMessage());
             }
-        } else if (cellNumber >= 17 && cellNumber <= 20) {
+        } else {
             addCardToWaste(cellNumber - 17, card);
         }
     }
